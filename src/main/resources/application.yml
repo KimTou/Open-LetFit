@@ -1,0 +1,65 @@
+server:
+  port: 8080
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+  type-aliases-package: com.letfit.pojo
+
+logging:
+  level:
+    com.letfit.mapper: TRACE
+  config: classpath:logback-spring.xml
+
+spring:
+  datasource:
+    #mysql
+    username: root
+    password: 123456
+    url: jdbc:mysql://localhost3306/letfit?useSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=GMT
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    #druid数据源
+    druid:
+      initialSize: 5
+      minIdle: 5
+      maxActive: 20
+      maxWait: 60000
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      #配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+      filters: stat,wall
+      maxPoolPreparedStatementPerConnectionSize: 20
+      useGlobalDataSourceStat: true
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+
+    #redis
+  redis:
+    host: localhost
+    port: 6379
+    password: 123456
+    database: 0
+    lettuce:
+      shutdown-timeout: 5000
+      pool:
+        max-active: 10
+        min-idle: 1
+        time-between-eviction-runs: 60000
+        max-idle: 10
+        max-wait: -1
+
+  #模板引擎
+  thymeleaf:
+    cache: false
+
+  #文件上传大小
+  servlet:
+    multipart:
+      max-file-size: 900MB
+      max-request-size: 900MB

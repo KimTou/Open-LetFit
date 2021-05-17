@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.thymeleaf.org/thymeleaf-extras-shiro">
+<head>
+    <meta charset="UTF-8">
+    <title>公共页面</title>
+</head>
+<body>
+
+<div class="layui-header" th:fragment="header">
+    <div class="layui-logo">Let Fit</div>
+    <!-- 头部区域（可配合layui 已有的水平导航） -->
+    <ul class="layui-nav layui-layout-left">
+        <li class="layui-nav-item"><a href="">nav 1</a></li>
+        <li class="layui-nav-item"><a href="">nav 2</a></li>
+        <li class="layui-nav-item"><a href="">nav 3</a></li>
+        <li class="layui-nav-item">
+            <a href="javascript:;">nav groups</a>
+            <dl class="layui-nav-child">
+                <dd><a href="">menu 11</a></dd>
+                <dd><a href="">menu 22</a></dd>
+                <dd><a href="">menu 33</a></dd>
+            </dl>
+        </li>
+    </ul>
+    <ul class="layui-nav layui-layout-right">
+        <li class="layui-nav-item">
+            <a href="javascript:;">
+                <img th:src="@{/favicon.ico}" class="layui-nav-img">
+                小伙子
+            </a>
+            <dl class="layui-nav-child">
+                <dd><a href="">set 1</a></dd>
+                <dd><a href="">set 2</a></dd>
+            </dl>
+        </li>
+        <li class="layui-nav-item"><a th:href="@{/admin/logout}">注销</a></li>
+    </ul>
+</div>
+
+
+<div class="layui-side layui-bg-black" th:fragment="side">
+    <div class="layui-side-scroll">
+        <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+        <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+            <li class="layui-nav-item layui-nav-itemed">
+                <a class="" th:href="@{/admin/function}">资料管理</a>
+                <dl class="layui-nav-child">
+                    <dd><a th:href="@{/admin/addSource}">添加资料</a></dd>
+                    <dd><a href="javascript:">2</a></dd>
+                    <dd><a href="javascript:">3</a></dd>
+                    <dd><a href="">the links</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item">
+                <a th:href="@{/admin/addModule}">模块管理</a>
+                <dl class="layui-nav-child">
+                    <dd><a th:href="@{/admin/addModule}">添加模块</a></dd>
+                    <dd><a href="javascript:">删除模块</a></dd>
+                    <dd><a href="">超链接</a></dd>
+                </dl>
+            </li>
+            <li shiro:hasRole="root" class="layui-nav-item"><a th:href="@{/admin/userManager}">用户管理</a></li>
+        </ul>
+    </div>
+</div>
+
+</body>
+</html>

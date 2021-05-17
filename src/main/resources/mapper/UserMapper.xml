@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.openletfit.mapper.UserMapper">
+
+    <resultMap id="userMap" type="com.openletfit.pojo.entity.User">
+        <id property="userId" column="user_id"/>
+        <result property="openId" column="user_openid"/>
+        <result property="userName" column="user_name"/>
+        <result property="userAvatar" column="user_avatar"/>
+        <result property="totalLike" column="total_like"/>
+    </resultMap>
+
+    <select id="findUserByOpenId" resultMap="userMap">
+        select * from user where user_openid = #{openId}
+    </select>
+
+    <select id="findUserByUserId" resultMap="userMap">
+        select
+            user_name,
+            user_avatar
+        from
+            user
+        where
+            user_id = #{userId}
+    </select>
+
+    <insert id="insertUser" useGeneratedKeys="true" keyColumn="user_id">
+        insert into user(
+            user_openid,
+            user_name,
+            user_avatar,
+            total_like
+        )
+        values (
+            #{openId},
+            #{userName},
+            #{userAvatar},
+            0
+        )
+    </insert>
+
+
+</mapper>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.openletfit.mapper.ModuleMapper">
+
+    <resultMap id="recordInfoMap" type="com.openletfit.pojo.vo.RecordInfo">
+        <id property="recordId" column="record_id"/>
+        <result property="userName" column="user_name"/>
+        <result property="userAvatar" column="user_avatar"/>
+        <association property="record" javaType="com.openletfit.pojo.entity.Record">
+            <result property="moduleId" column="module_id"/>
+            <result property="userId" column="user_id"/>
+            <result property="recordContent" column="record_content"/>
+            <result property="recordImg" column="record_img"/>
+            <result property="totalLike" column="total_like"/>
+            <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP" javaType="java.time.LocalDateTime"/>
+        </association>
+    </resultMap>
+
+    <select id="getModuleList" resultType="com.openletfit.pojo.entity.Module">
+        select * from module
+    </select>
+
+    <select id="getUserModule" resultType="com.openletfit.pojo.vo.UserRecordModule">
+        select
+            m.module_id,
+            m.module_name,
+            m.module_cover,
+            MAX(r.gmt_create) as gmt,
+            count(record_id) as record_number
+        from
+            module as m
+        left join
+            record as r
+        on
+            m.module_id = r.module_id
+        where
+            r.user_id = #{userId}
+        group by
+            m.module_id
+        order by
+            gmt desc
+    </select>
+
+    <select id="getUserRecentModule" resultType="com.openletfit.pojo.entity.Module">
+        select
+            m.module_id,
+            m.module_name,
+            m.module_cover,
+            MAX(r.gmt_create) as gmt
+        from
+            record as r
+        left join
+            module as m
+        on
+            r.module_id = m.module_id
+        where
+            r.user_id = #{userId}
+        group by
+            m.module_id
+        order by
+            gmt desc
+        limit
+            0,4
+    </select>
+
+    <select id="getModuleByModuleId" resultType="com.openletfit.pojo.entity.Module">
+        select * from module where module_id = #{moduleId}
+    </select>
+
+    <select id="getCirclePage" resultMap="recordInfoMap">
+        select
+            r.record_id,
+            u.user_name,
+            u.user_avatar,
+            r.module_id,
+            r.user_id,
+            r.record_content,
+            r.record_img,
+            r.total_like,
+            r.gmt_create
+        from
+            record as r
+        left join
+            user as u
+        on
+            r.user_id = u.user_id
+        where
+            module_id = #{moduleId}
+        order by
+            gmt_create desc
+        limit
+            #{start},#{rows}
+    </select>
+
+</mapper>

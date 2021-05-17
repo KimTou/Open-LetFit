@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.openletfit.mapper.RecordMapper">
+
+    <resultMap id="userCommentMap" type="com.openletfit.pojo.vo.UserComment">
+        <id property="commentId" column="comment_id"/>
+        <result property="userName" column="user_name"/>
+        <result property="avatar" column="user_avatar"/>
+        <association property="comment" javaType="com.openletfit.pojo.entity.Comment">
+            <result property="pid" column="pid"/>
+            <result property="recordId" column="record_id"/>
+            <result property="userId" column="user_id"/>
+            <result property="repliedUserName" column="replied_user_name"/>
+            <result property="content" column="content"/>
+            <result property="gmtCreate" column="gmt_create"/>
+        </association>
+    </resultMap>
+
+    <resultMap id="recordMap" type="com.openletfit.pojo.entity.Record">
+        <id property="recordId" column="record_id"/>
+        <result property="moduleId" column="module_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="recordContent" column="record_content"/>
+        <result property="recordImg" column="record_img"/>
+        <result property="totalLike" column="total_like"/>
+        <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP" javaType="java.time.LocalDateTime"/>
+    </resultMap>
+
+    <select id="findRecordByRecordId" resultType="com.openletfit.pojo.entity.Record">
+        select record_id from record where record_id = #{recordId}
+    </select>
+
+    <select id="selectRecordTotalLike" resultType="com.openletfit.pojo.entity.Like">
+        select liker_id, gmt_create from `like` where record_id = #{recordId}
+    </select>
+
+    <insert id="likeUserToMysql" parameterType="java.util.Map">
+        insert into
+            `like`(record_id,liker_id,gmt_create)
+        values
+        <foreach collection="likeMap.entrySet()" index="key" item="val" separator=",">
+            (#{recordId},#{key},#{val})
+        </foreach>
+    </insert>
+
+    <delete id="deleteLike" parameterType="java.util.Set">
+        delete from
+            `like`
+        where
+            record_id = #{recordId}
+        and
+        <foreach collection="unLikerIdSet" item="unLikerId" separator="or">
+            liker_id = #{unLikerId}
+        </foreach>
+    </delete>
+
+    <update id="updateTotalLike">
+        update
+            record
+        set
+            total_like = #{totalLike}
+        where
+            record_id = #{recordId}
+    </update>
+
+    <insert id="putRecord" parameterType="com.openletfit.pojo.entity.Record" useGeneratedKeys="true" keyProperty="recordId" keyColumn="record_id">
+        insert into record (
+            module_id,
+            user_id,
+            record_content,
+            record_img,
+            total_like,
+            gmt_create
+        )
+        values(
+            #{moduleId},
+            #{userId},
+            #{recordContent},
+            #{recordImg},
+            #{totalLike},
+            #{gmtCreate}
+        )
+    </insert>
+
+    <select id="getRecordById" resultMap="recordMap">
+        select * from record where record_id=#{recordId}
+    </select>
+
+    <select id="getRecordListByUserId" resultType="com.openletfit.pojo.entity.Record">
+        select * from
+            record
+        where
+            user_id = #{userId}
+        and
+            module_id = #{moduleId}
+        order by
+            gmt_create desc
+        limit
+            #{start},#{rows}
+    </select>
+
+    <insert id="insertComment" parameterType="com.openletfit.pojo.entity.Comment">
+        insert into comment (
+            pid,
+            record_id,
+            user_id,
+            replied_user_name,
+            content,
+            gmt_create
+        )
+        values (
+            #{pid},
+            #{recordId},
+            #{userId},
+            #{repliedUserName},
+            #{content},
+            #{gmtCreate}
+        )
+    </insert>
+
+    <select id="getCommentList" resultMap="userCommentMap">
+        select
+            c.comment_id,
+            u.user_name,
+            u.user_avatar,
+            c.pid,
+            c.record_id,
+            c.user_id,
+            c.replied_user_name,
+            c.content,
+            c.gmt_create
+        from
+            user as u
+        left join
+            comment as c
+        on
+            c.user_id = u.user_id
+        <where>
+            <if test="recordId != null">
+                record_id = #{recordId}
+            </if>
+            <if test="pid != null">
+                and pid = #{pid}
+            </if>
+        </where>
+        order by
+            gmt_create desc
+    </select>
+
+
+</mapper>

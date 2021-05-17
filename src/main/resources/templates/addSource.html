@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>上传视频资源</title>
+    <link rel="stylesheet" th:href="@{/webjars/layui/2.5.7/css/layui.css}">
+</head>
+<body>
+<div class="layui-layout layui-layout-admin">
+
+    <div th:replace="layout::header"></div>
+    <div th:replace="layout::side"></div>
+
+    <input type="hidden" id="sourceId" value="">
+
+    <div class="layui-body">
+
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+            <legend>添加资源</legend>
+        </fieldset>
+
+        <!--表单-->
+        <form class="layui-form" action="" enctype="multipart/form-data">
+            <div class="layui-form-item">
+                <label class="layui-form-label">模块名</label>
+                <div class="layui-input-block">
+                    <input type="text" id="moduleName" required  lay-verify="required" placeholder="请输入模块名" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">资源标题</label>
+                <div class="layui-input-block">
+                    <input type="text" id="sourceTitle" required  lay-verify="required" placeholder="请输入资源标题" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                <legend>上传视频</legend>
+            </fieldset>
+            <div class="layui-form-item">
+                <div class="layui-upload">
+                    <button type="button" class="layui-btn" id="uploadVideo">上传视频</button>
+                    <div class="layui-upload-list">
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" id="uploadBtn" onclick="return false">提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                <legend>上传视频封面</legend>
+            </fieldset>
+            <div class="layui-form-item">
+                <div class="layui-upload">
+                    <button type="button" class="layui-btn" id="uploadImg">上传视频封面</button>
+                    <div class="layui-upload-list">
+
+                    </div>
+                </div>
+            </div>
+            <button class="layui-btn" id="uploadImgBtn">提交</button>
+
+        </form>
+
+    </div>
+
+</div>
+
+    <script th:src="@{/webjars/layui/2.5.7/layui.js}"></script>
+    <script th:src="@{/webjars/jquery/3.3.1/jquery.js}"></script>
+
+    <script>
+        layui.use('upload', function(){
+            var upload = layui.upload;
+            //执行实例
+            var uploadInst = upload.render({
+                elem: '#uploadVideo' //绑定元素
+                ,url: '/admin/addSource' //上传接口
+                ,multiple: true     //上传视频
+                ,auto: false    //不自动上传
+                ,accept: 'file'
+                ,bindAction: '#uploadBtn'
+                ,method: 'POST'
+                ,before: function (obj){
+                    this.data.moduleName = $('#moduleName').val();
+                    this.data.sourceTitle = $('#sourceTitle').val();
+                    layer.msg('上传中', {
+                        icon: 16,
+                        shade: 0.01
+                    }); //上传loading
+                }
+                ,done: function(res){
+                    //上传完毕回调
+                    if(res.code == 200){
+                        $('#sourceId').val(res.data.sourceId);
+                        return alert("上传成功"+res.data.sourceId)
+                    }
+                    else{
+                        return alert("上传失败:"+res.msg)
+                    }
+                }
+                ,success: function (res){
+                    $('#sourceId').val(res.data.sourceId);
+                }
+                ,error: function(){
+                    //请求异常回调
+                }
+            });
+        });
+    </script>
+
+<script>
+    layui.use('upload', function(){
+        var upload = layui.upload;
+        //执行实例
+        var uploadInst = upload.render({
+            elem: '#uploadImg' //绑定元素
+            ,url: '/admin/uploadSourceCover' //上传接口
+            ,multiple: true     //上传图片
+            ,auto: false    //不自动上传
+            ,bindAction: '#uploadImgBtn'
+            ,method: 'POST'
+            ,before: function (obj){
+                this.data.sourceId = $('#sourceId').val();
+                layer.msg('上传中', {
+                    icon: 16,
+                    shade: 0.01
+                }); //上传loading
+            }
+            ,done: function(res){
+                //上传完毕回调
+                if(res.code == 200){
+                    return alert('上传成功');
+                }
+                else{
+                    return alert("上传失败")
+                }
+            }
+            ,error: function(){
+                //请求异常回调
+            }
+        });
+    });
+</script>
+
+
+</body>
+</html>

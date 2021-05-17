@@ -1,0 +1,25 @@
+body{
+    height: 100%;
+}
+
+form{
+    position:absolute;
+    left:300px;
+    top:150px;
+}
+
+h2{
+    position: fixed;
+    top: 50px;
+    left: 300px;
+    text-align: center;
+}
+
+label{
+    font-size: 20px;
+}
+
+.text-center{
+    margin: auto;
+    width: 50%;
+}
