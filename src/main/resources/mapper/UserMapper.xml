@@ -3,13 +3,14 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.openletfit.mapper.UserMapper">
+<mapper namespace="com.letfit.mapper.UserMapper">
 
-    <resultMap id="userMap" type="com.openletfit.pojo.entity.User">
+    <resultMap id="userMap" type="com.letfit.pojo.entity.User">
         <id property="userId" column="user_id"/>
         <result property="openId" column="user_openid"/>
         <result property="userName" column="user_name"/>
         <result property="userAvatar" column="user_avatar"/>
+        <result property="userPoint" column="user_point"/>
         <result property="totalLike" column="total_like"/>
     </resultMap>
 
@@ -32,15 +33,21 @@
             user_openid,
             user_name,
             user_avatar,
+            user_point,
             total_like
         )
         values (
             #{openId},
             #{userName},
             #{userAvatar},
-            0
+            #{userPoint},
+            #{totalLike}
         )
     </insert>
+
+    <update id="updateUserPoint">
+        update user set user_point=user_point+#{point} where user_id = #{userId}
+    </update>
 
 
 </mapper>

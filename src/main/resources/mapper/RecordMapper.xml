@@ -3,13 +3,13 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.openletfit.mapper.RecordMapper">
+<mapper namespace="com.letfit.mapper.RecordMapper">
 
-    <resultMap id="userCommentMap" type="com.openletfit.pojo.vo.UserComment">
+    <resultMap id="userCommentMap" type="com.letfit.pojo.vo.UserComment">
         <id property="commentId" column="comment_id"/>
         <result property="userName" column="user_name"/>
         <result property="avatar" column="user_avatar"/>
-        <association property="comment" javaType="com.openletfit.pojo.entity.Comment">
+        <association property="comment" javaType="com.letfit.pojo.entity.Comment">
             <result property="pid" column="pid"/>
             <result property="recordId" column="record_id"/>
             <result property="userId" column="user_id"/>
@@ -19,7 +19,7 @@
         </association>
     </resultMap>
 
-    <resultMap id="recordMap" type="com.openletfit.pojo.entity.Record">
+    <resultMap id="recordMap" type="com.letfit.pojo.entity.Record">
         <id property="recordId" column="record_id"/>
         <result property="moduleId" column="module_id"/>
         <result property="userId" column="user_id"/>
@@ -29,11 +29,11 @@
         <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP" javaType="java.time.LocalDateTime"/>
     </resultMap>
 
-    <select id="findRecordByRecordId" resultType="com.openletfit.pojo.entity.Record">
+    <select id="findRecordByRecordId" resultType="com.letfit.pojo.entity.Record">
         select record_id from record where record_id = #{recordId}
     </select>
 
-    <select id="selectRecordTotalLike" resultType="com.openletfit.pojo.entity.Like">
+    <select id="selectRecordTotalLike" resultType="com.letfit.pojo.entity.Like">
         select liker_id, gmt_create from `like` where record_id = #{recordId}
     </select>
 
@@ -66,7 +66,7 @@
             record_id = #{recordId}
     </update>
 
-    <insert id="putRecord" parameterType="com.openletfit.pojo.entity.Record" useGeneratedKeys="true" keyProperty="recordId" keyColumn="record_id">
+    <insert id="putRecord" parameterType="com.letfit.pojo.entity.Record" useGeneratedKeys="true" keyProperty="recordId" keyColumn="record_id">
         insert into record (
             module_id,
             user_id,
@@ -89,7 +89,7 @@
         select * from record where record_id=#{recordId}
     </select>
 
-    <select id="getRecordListByUserId" resultType="com.openletfit.pojo.entity.Record">
+    <select id="getRecordListByUserId" resultType="com.letfit.pojo.entity.Record">
         select * from
             record
         where
@@ -102,7 +102,7 @@
             #{start},#{rows}
     </select>
 
-    <insert id="insertComment" parameterType="com.openletfit.pojo.entity.Comment">
+    <insert id="insertComment" parameterType="com.letfit.pojo.entity.Comment">
         insert into comment (
             pid,
             record_id,

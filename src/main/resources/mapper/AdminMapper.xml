@@ -3,21 +3,21 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.openletfit.mapper.AdminMapper">
+<mapper namespace="com.letfit.mapper.AdminMapper">
 
-    <insert id="insertModule" parameterType="com.openletfit.pojo.entity.Module" useGeneratedKeys="true" keyColumn="module_id">
+    <insert id="insertModule" parameterType="com.letfit.pojo.entity.Module" useGeneratedKeys="true" keyColumn="module_id">
         insert into module(module_name,module_cover) values(#{moduleName},#{moduleCover})
     </insert>
     
-    <select id="findModuleById" resultType="com.openletfit.pojo.entity.Module">
+    <select id="findModuleById" resultType="com.letfit.pojo.entity.Module">
         select * from module where module_id = #{moduleId}
     </select>
 
-    <select id="findModuleByName" resultType="com.openletfit.pojo.entity.Module">
+    <select id="findModuleByName" resultType="com.letfit.pojo.entity.Module">
         select * from module where module_name = #{moduleName}
     </select>
 
-    <insert id="uploadSource" parameterType="com.openletfit.pojo.entity.Source" useGeneratedKeys="true" keyProperty="sourceId" keyColumn="source_id">
+    <insert id="uploadSource" parameterType="com.letfit.pojo.entity.Source" useGeneratedKeys="true" keyProperty="sourceId" keyColumn="source_id">
         insert into source(source_title,source_path,module_id) values(#{sourceTitle},#{sourcePath},#{moduleId})
     </insert>
 
@@ -25,7 +25,7 @@
         update source set source_cover = #{sourceCover} where source_id = #{sourceId}
     </update>
 
-    <insert id="insertAdmin" parameterType="com.openletfit.pojo.entity.Admin">
+    <insert id="insertAdmin" parameterType="com.letfit.pojo.entity.Admin">
         insert into admin(
             admin_name,
             password,
@@ -38,7 +38,7 @@
         )
     </insert>
 
-    <select id="findAdminByName" resultType="com.openletfit.pojo.entity.Admin">
+    <select id="findAdminByName" resultType="com.letfit.pojo.entity.Admin">
         select * from admin where admin_name = #{adminName}
     </select>
 

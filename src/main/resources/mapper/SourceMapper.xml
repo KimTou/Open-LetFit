@@ -3,9 +3,9 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.openletfit.mapper.SourceMapper">
+<mapper namespace="com.letfit.mapper.SourceMapper">
 
-    <select id="getIndexSource" parameterType="java.util.List" resultType="com.openletfit.pojo.entity.Source">
+    <select id="getIndexSource" parameterType="java.util.List" resultType="com.letfit.pojo.entity.Source">
         select
             s.source_id,
             s.source_title,
@@ -26,15 +26,15 @@
             0,4
     </select>
 
-    <select id="getSourceByModuleId" resultType="com.openletfit.pojo.entity.Source">
+    <select id="getSourceByModuleId" resultType="com.letfit.pojo.entity.Source">
         select * from source where module_id = #{moduleId}
     </select>
 
-    <select id="getDefaultSource" resultType="com.openletfit.pojo.entity.Source">
+    <select id="getDefaultSource" resultType="com.letfit.pojo.entity.Source">
         select * from source order by source_id limit 0,4
     </select>
 
-    <select id="searchSource" resultType="com.openletfit.pojo.entity.Source">
+    <select id="searchSource" resultType="com.letfit.pojo.entity.Source">
         select * from
             source
         where

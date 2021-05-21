@@ -62,6 +62,16 @@ spring:
         max-idle: 10
         max-wait: -1
 
+  #mongodb
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: letfit
+      password: 123456
+      username: Kim
+      authentication-database: admin
+
   #模板引擎
   thymeleaf:
     cache: false

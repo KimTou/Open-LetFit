@@ -3,13 +3,13 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.openletfit.mapper.ModuleMapper">
+<mapper namespace="com.letfit.mapper.ModuleMapper">
 
-    <resultMap id="recordInfoMap" type="com.openletfit.pojo.vo.RecordInfo">
+    <resultMap id="recordInfoMap" type="com.letfit.pojo.vo.RecordInfo">
         <id property="recordId" column="record_id"/>
         <result property="userName" column="user_name"/>
         <result property="userAvatar" column="user_avatar"/>
-        <association property="record" javaType="com.openletfit.pojo.entity.Record">
+        <association property="record" javaType="com.letfit.pojo.entity.Record">
             <result property="moduleId" column="module_id"/>
             <result property="userId" column="user_id"/>
             <result property="recordContent" column="record_content"/>
@@ -19,11 +19,11 @@
         </association>
     </resultMap>
 
-    <select id="getModuleList" resultType="com.openletfit.pojo.entity.Module">
+    <select id="getModuleList" resultType="com.letfit.pojo.entity.Module">
         select * from module
     </select>
 
-    <select id="getUserModule" resultType="com.openletfit.pojo.vo.UserRecordModule">
+    <select id="getUserModule" resultType="com.letfit.pojo.vo.UserRecordModule">
         select
             m.module_id,
             m.module_name,
@@ -44,7 +44,7 @@
             gmt desc
     </select>
 
-    <select id="getUserRecentModule" resultType="com.openletfit.pojo.entity.Module">
+    <select id="getUserRecentModule" resultType="com.letfit.pojo.entity.Module">
         select
             m.module_id,
             m.module_name,
@@ -66,7 +66,7 @@
             0,4
     </select>
 
-    <select id="getModuleByModuleId" resultType="com.openletfit.pojo.entity.Module">
+    <select id="getModuleByModuleId" resultType="com.letfit.pojo.entity.Module">
         select * from module where module_id = #{moduleId}
     </select>
 
