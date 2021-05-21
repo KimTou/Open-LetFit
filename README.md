@@ -25,7 +25,7 @@
 
 
 
-![后台架构图](https://gitee.com/KIMTOU/img/blob/master/LetFit_back.png)
+![系统架构](https://gitee.com/KIMTOU/img/raw/master/系统架构.png)
 
 
 
