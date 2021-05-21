@@ -1,5 +1,6 @@
 HELP.md
 target/
+# 日志
 logs
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
