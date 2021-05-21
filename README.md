@@ -25,7 +25,7 @@
 
 
 
-![系统架构](D:\LetFit\提交文件\系统架构.png)
+![后台架构图](https://gitee.com/KIMTOU/img/blob/master/LetFit_back.png)
 
 
 
