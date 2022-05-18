@@ -2,7 +2,7 @@
 
 **LetFit 小程序（暂下线）后台开源版**
 
-<img src="D:\LetFit\LetFit资源\图片\LetFit.jpg" style="zoom:67%;" />
+<img src="https://cdn.tojintao.cn/LetFit.jpg" style="zoom: 67%;" />
 
 
 ## 技术选型
